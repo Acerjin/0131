@@ -6,8 +6,8 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 class WdcpAdmin(admin.ModelAdmin): 
-    list_display = ('zh','pz','mc')
-    fields = ['zh','pz','mc','je','zhzb','rzzt','ztpj','zxpj','qx','syl','pzrq','dqrq','synx','lshzj','by1','sfgq']
+    list_display = ('zhmc','pz','mc')
+    fields = ['zhmc','pz','mc','je','zhzb','rzzt','ztpj','zxpj','qx','syl','pzrq','dqrq','synx','lshzj','by1','sfgq']
     #def __init__(self, *args, **kwargs):
        # self.fields['zh'].queryset = Zh.objects.all()
 class TzqkfxAdmin(admin.ModelAdmin):

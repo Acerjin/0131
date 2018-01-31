@@ -25,9 +25,9 @@ function MM_jumpMenu1(targ,selObj,restore,blx){ //v3.0
 	   <table class="table table-bordered table-hover table-condensed">
 	  <tr  align="center"><td colspan=10 style="font-size:20px;">资产情况表</td></tr>
 	  <th >序号</th>
-       <TH><select id="rq" onChange="MM_jumpMenu1('parent',this,0,1)"><option>{{rq}}</option>{% for x in rqlist%}<option value="{{x.0}}">{{x.0}}</option>{% endfor%}</select></TH>
+       <TH><select id="rq" onChange="MM_jumpMenu1('parent',this,0,1)"><option>{{rq}}</option><option>ALL</option>{% for x in rqlist%}<option value="{{x.0}}">{{x.0}}</option>{% endfor%}</select></TH>
         <th>投资组合代码</th>
-        <th><select id="zh" onChange="MM_jumpMenu1('parent',this,0,1)"><option>{{zh}}</option>{% for z in zhlist%}<option value="{{z.0}}">{{z.0}}</option>{% endfor%}</select></th>
+        <th><select id="zh" onChange="MM_jumpMenu1('parent',this,0,1)"><option>{{zh}}</option><option>ALL</option>{% for z in zhlist%}<option value="{{z.0}}">{{z.0}}</option>{% endfor%}</select></th>
         <th>单位净值</th>
         <th>受托资产净值</th>
         <th>资产份额</th>
@@ -73,9 +73,9 @@ function MM_jumpMenu1(targ,selObj,restore,blx){ //v3.0
 	  <form action="/" method="post"> <tr>
 	   <th>序号</th>
         <th >开始日期</th>
-        <TH><select id="jsrq" onChange="MM_jumpMenu('parent',this,0,2)"><option>结束日期</option>{% for x in rqlist%}<option value="{{x.0}}">{{x.0}}</option>{% endfor%}</select></TH>
-        <th >组合</th>
-        <th >资产类别</th>
+        <TH><select id="rq" onChange="MM_jumpMenu('parent',this,0,2)"><option>{{rq}}</option><option>ALL</option>{% for x in rqlist%}<option value="{{x.0}}">{{x.0}}</option>{% endfor%}</select></TH>
+        <th><select id="zh" onChange="MM_jumpMenu1('parent',this,0,2)"><option>{{zh}}</option><option>ALL</option>{% for z in zhlist%}<option value="{{z.0}}">{{z.0}}</option>{% endfor%}</select></th>
+	<th >资产类别</th>
         <th >资产名称</th>
         <th >本期累计</th>
         <th >收益占比</th>
@@ -133,8 +133,8 @@ function MM_jumpMenu1(targ,selObj,restore,blx){ //v3.0
 	   <tr  align="center"><td colspan=8 style="font-size:20px;">资产分布表</td></tr>
 	  <tr>
 	   <th>序号</th>
-        <th ><select id="rq" onChange="MM_jumpMenu('parent',this,0,3)"><option>日期</option>{% for x in rqlist%}<option value="{{x.0}}">{{x.0}}</option>{% endfor%}</select></th>
-        <th >组合</th>
+        <th ><select id="rq" onChange="MM_jumpMenu('parent',this,0,3)"><option>{{rq}}</option><option>ALL</option>{% for x in rqlist%}<option value="{{x.0}}">{{x.0}}</option>{% endfor%}</select></th>
+	<th><select id="zh" onChange="MM_jumpMenu1('parent',this,0,3)"><option>{{zh}}</option><option>ALL</option>{% for z in zhlist%}<option value="{{z.0}}">{{z.0}}</option>{% endfor%}</select></th>
         <th >资产类别</th>
         <th >资产名称</th>
         <th >市值</th>
@@ -175,8 +175,8 @@ function MM_jumpMenu1(targ,selObj,restore,blx){ //v3.0
 	  <tr>
 	   <th>序号</th>
         <th >开始日期</th>
-		 <th ><select id="rq" onChange="MM_jumpMenu('parent',this,0,4)"><option>结束日期</option>{% for x in rqlist%}<option value="{{x.0}}">{{x.0}}</option>{% endfor%}</select></th>
-        <th >组合</th>
+		 <th ><select id="rq" onChange="MM_jumpMenu('parent',this,0,4)"><option>{{rq}}</option><option>ALL</option>{% for x in rqlist%}<option value="{{x.0}}">{{x.0}}</option>{% endfor%}</select></th>
+	<th><select id="zh" onChange="MM_jumpMenu1('parent',this,0,4)"><option>{{zh}}</option><option>ALL</option>{% for z in zhlist%}<option value="{{z.0}}">{{z.0}}</option>{% endfor%}</select></th>
         <th >资产类别</th>
         <th >资产名称</th>
         <th >日均持仓成本</th>

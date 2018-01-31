@@ -41,7 +41,7 @@ class Pz(models.Model):
     
 class Wdcp(models.Model):
     id = models.AutoField(primary_key=True)
-    zh = models.ForeignKey(Njzh,verbose_name = "组合")
+    zhmc = models.ForeignKey(Njzh,verbose_name = "组合")
     pz = models.ForeignKey(Pz,verbose_name = "品种")
     mc = models.CharField(max_length=100,blank=True,null=True,verbose_name = "名称")
     je = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True,verbose_name = "金额")
@@ -82,20 +82,20 @@ class Gyfx(models.Model):
     sye2_bnlj = models.DecimalField(max_digits=20, decimal_places=10, blank=True, null=True)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
     tzsyl_bqlj = models.DecimalField(max_digits=20, decimal_places=10, blank=True, null=True) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
     tzsyl_bnlj = models.DecimalField(max_digits=20, decimal_places=10, blank=True, null=True)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
-    zh = models.CharField(max_length=10, blank=True, null=True)
+    zhmc = models.CharField(max_length=10, blank=True, null=True)
     drrq = models.CharField(max_length=20, blank=True, null=True)
     
     class Meta:
         
         
-        unique_together = ('zcmc','ksrq','zh','zclb')
+        unique_together = ('zcmc','ksrq','zhmc','zclb')
     def __unicode__(self):
         return self.tgh
     
 class ZcFbb(models.Model):
     id = models.AutoField(primary_key=True)
     rq = models.CharField(max_length=15, blank=True, null=True)
-    zh = models.CharField(max_length=10, blank=True, null=True)
+    zhmc = models.CharField(max_length=10, blank=True, null=True)
     #tgh = models.CharField(max_length=5, blank=True, null=True)
     zclb = models.CharField(max_length=30)
     zcmc = models.CharField(max_length=50)
@@ -105,9 +105,9 @@ class ZcFbb(models.Model):
     drrq = models.CharField(max_length=20, blank=True, null=True)
     class Meta:     
         
-        unique_together = ('rq','zh','zcmc','zclb')
+        unique_together = ('rq','zhmc','zcmc','zclb')
     def __unicode__(self):
-        return self.zh
+        return self.zhmc
 class ZcQkb(models.Model):
     id = models.AutoField(primary_key=True)
     rq = models.CharField(max_length=15)
@@ -218,7 +218,7 @@ class ZcFbbRjcc(models.Model):
     id = models.AutoField(primary_key=True)
     ksrq = models.CharField(max_length=15, blank=True, null=True)
     jsrq = models.CharField(max_length=15, blank=True, null=True)
-    zh = models.CharField(max_length=10, blank=True, null=True)
+    zhmc = models.CharField(max_length=10, blank=True, null=True)
     #tgh = models.CharField(max_length=5, blank=True, null=True)
     zclb = models.CharField(max_length=30)
     zcmc = models.CharField(max_length=50)
@@ -227,9 +227,9 @@ class ZcFbbRjcc(models.Model):
     drrq = models.CharField(max_length=20, blank=True, null=True)
     class Meta:     
         
-        unique_together = ('jsrq','zh','zcmc','zclb')
+        unique_together = ('jsrq','zhmc','zcmc','zclb')
     def __unicode__(self):
-        return self.zh
+        return self.zhmc
 class Ctgl(models.Model):
     lb_CHOICES = (
         (u'基金',u'基金'),
@@ -263,7 +263,7 @@ class Ctgl(models.Model):
 class TA(models.Model):
     id = models.AutoField(primary_key=True)
     rq = models.CharField(max_length=15, blank=True, null=True)
-    zh = models.CharField(max_length=10, blank=True, null=True)
+    zhmc = models.CharField(max_length=10, blank=True, null=True)
     #tgh = models.CharField(max_length=5, blank=True, null=True)
     bz = models.CharField(max_length=15)
     slje = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True,verbose_name='数量/金额')
@@ -271,9 +271,9 @@ class TA(models.Model):
     xspzrq = models.CharField(max_length=15, blank=True, null=True)
     drrq = models.CharField(max_length=20, blank=True, null=True)
     class Meta: 
-        unique_together = ('rq','zh','jzrq')
+        unique_together = ('rq','zhmc','jzrq')
     def __unicode__(self):
-        return self.zh
+        return self.zhmc
 class Syl(models.Model):
     id = models.AutoField(primary_key=True)
     rq = models.CharField(max_length=10,verbose_name='日期')
@@ -298,20 +298,20 @@ class Syl(models.Model):
 class ZcJz(models.Model):
     id = models.AutoField(primary_key=True)
     rq = models.CharField(max_length=15, blank=True, null=True)
-    zh = models.CharField(max_length=10, blank=True, null=True)
+    zhmc = models.CharField(max_length=10, blank=True, null=True)
     #tgh = models.CharField(max_length=5, blank=True, null=True)
     
     slje = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True,verbose_name='数量/金额')
 
     drrq = models.CharField(max_length=20, blank=True, null=True)
     class Meta: 
-        unique_together = ('rq','zh')
+        unique_together = ('rq','zhmc')
     def __unicode__(self):
-        return self.zh
+        return self.zhmc
 class Srfx(models.Model):
     id = models.AutoField(primary_key=True)
     jsrq = models.CharField(max_length=15,verbose_name='结束日期')
-    zh = models.CharField(max_length=15, blank=True, null=True, verbose_name='组合名称')
+    zhmc = models.CharField(max_length=15, blank=True, null=True, verbose_name='组合名称')
     xm = models.CharField(max_length=15, blank=True, null=True, verbose_name='')
     zqnhg = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True,verbose_name='')  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
     qthbl = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True,verbose_name='')
@@ -328,9 +328,9 @@ class Srfx(models.Model):
     qylxj = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True,verbose_name='')
     hj = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True,verbose_name='')
     class Meta:         
-        unique_together = ('jsrq','zh','xm')
+        unique_together = ('jsrq','zhmc','xm')
     def __unicode__(self):
-        return self.zh
+        return self.zhmc
 class Zczd(models.Model): 
     srlb_choice = (
         ('债券逆回购','债券逆回购'),

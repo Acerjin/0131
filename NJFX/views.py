@@ -363,7 +363,7 @@ def data_import(request):
 @login_required
 def tghsj(request):
     username = request.user.username
-    rq = request.GET.get('rq')
+    rq = request.GET.get('rq') 
     zh = request.GET.get('zh')
     rq2= request.GET.get('rq2')
     blx = request.GET.get('blx')
@@ -375,46 +375,63 @@ def tghsj(request):
     sj =''
     rqlist = ''
     zhlist=''
+    sqlrq = ''
+    sqlzh = ''
+    if zh is None or zh=='ALL':
+        zh = 'ALL'
+        sqlzh = '1=1'
+    else:
+        sqlzh = 'zhmc=\''+str(zh)+'\''
+    if rq is None or rq=='ALL':
+        sqlrq = '1=1'
+        rq= 'ALL'
+    elif blx=='2' or blx=='4':
+        sqlrq = 'jsrq=\''+str(rq)+'\'' 
+    else:
+        sqlrq = 'rq=\''+str(rq)+'\''
     if blx[0][0] =='1':#资产情况表
         cursorrq.execute('select distinct(rq) from njfx_zcqkb t ')
         cursorzh.execute('select distinct(zhmc) from njfx_zcqkb t')
         rqlist = cursorrq.fetchall()
         zhlist = cursorzh.fetchall()
-        if zh is None:
-            zh = zhlist[0][0]
-        if rq is None:
-            rq = rqlist[0][0]
-        cursorsj.execute('select rq, tzzhdm, zhmc, dwjz, stzcjz, zcfe, wtje, jsy, drrq from njfx_zcqkb where rq=%s and zhmc=%s order by rq desc ',[rq,zh]) 
-        sj = cursorsj.fetchall()                              
+        sql = 'select rq, tzzhdm, zhmc, dwjz, stzcjz, zcfe, wtje, jsy, drrq from njfx_zcqkb where '+sqlrq+' and '+ sqlzh+' order by rq desc '
+        #cursorsj.execute('select rq, tzzhdm, zhmc, dwjz, stzcjz, zcfe, wtje, jsy, drrq from njfx_zcqkb where %s and %s order by rq desc ',[sqlrq,sqlzh]) 
+        cursorsj.execute(sql)
+        sj = cursorsj.fetchall()
     elif blx[0][0] =='2':# 归因分析
         cursorrq = connection.cursor()
         cursorrq.execute('select distinct(jsrq) from NJFX_GYFX t order by jsrq desc')
+        cursorzh.execute('select distinct(zhmc) from NJFX_GYFX t ')
+        zhlist =cursorzh.fetchall()
         rqlist = cursorrq.fetchall()
         cursorrq.close()
-        if rq is None:
-            rq = rqlist[0][0]
-        cursorsj.execute('select  ksrq, jsrq,zh, zclb, zcmc, sye1_bqlj, round(sye1_bqsyzb,2) ,sye1_bnlj, round(sye1_bnsyzb,2), sye2_bqlj, sye2_bnlj, round(tzsyl_bqlj,2), round(tzsyl_bnlj,2), drrq from njfx_gyfx where jsrq= %s order by jsrq desc',[rq])
+        sql = 'select  ksrq, jsrq,zhmc, zclb, zcmc, sye1_bqlj, round(sye1_bqsyzb,2) ,sye1_bnlj, round(sye1_bnsyzb,2), sye2_bqlj, sye2_bnlj, round(tzsyl_bqlj,2), round(tzsyl_bnlj,2), drrq from njfx_gyfx where '+sqlrq+' and '+ sqlzh+' order by jsrq desc '
+        #cursorsj.execute('select  ksrq, jsrq,zh, zclb, zcmc, sye1_bqlj, round(sye1_bqsyzb,2) ,sye1_bnlj, round(sye1_bnsyzb,2), sye2_bqlj, sye2_bnlj, round(tzsyl_bqlj,2), round(tzsyl_bnlj,2), drrq from njfx_gyfx where jsrq= %s order by jsrq desc',[rq])
+        print (sql)
+        cursorsj.execute(sql)
         sj = cursorsj.fetchall()
     elif blx[0][0] =='3':#资产分布
         cursorrq = connection.cursor()
         cursorrq.execute('select distinct(rq) from njfx_zcfbb t order by rq desc')
         rqlist = cursorrq.fetchall()
-        cursorrq.close() 
-        if rq is None:
-            rq = rqlist[0][0]        
-        cursorsj.execute('select  rq, zh, zclb, zcmc, sz, zjzcbl,  drrq from njfx_zcfbb where rq=%s order by rq desc',[rq])
+        cursorzh.execute('select distinct(zhmc) from njfx_zcfbb ')
+        zhlist = cursorzh.fetchall()
+        cursorrq.close()
+        sql = 'select  rq, zhmc, zclb, zcmc, sz, zjzcbl,  drrq from njfx_zcfbb where '+sqlrq+' and '+ sqlzh+' order by rq desc '
+        cursorsj.execute(sql)
         sj = cursorsj.fetchall()
     elif blx[0][0] =='4':#日均持仓分析
         cursorrq = connection.cursor()
         cursorrq.execute('select distinct(jsrq) from njfx_zcfbbrjcc t order by jsrq desc')
         rqlist = cursorrq.fetchall()
-        cursorrq.close() 
-        if rq is None:
-            rq = rqlist[0][0]            
-        cursorsj.execute('select  ksrq, jsrq, zh, zclb, zcmc, rjcccb, rjccye, drrq from njfx_zcfbbrjcc order by jsrq desc')
+        cursorzh.execute('select distinct(zhmc) from njfx_zcfbbrjcc ')
+        zhlist = cursorzh.fetchall()        
+        cursorrq.close()
+        sql = 'select  ksrq, jsrq, zhmc, zclb, zcmc, rjcccb, rjccye, drrq from  njfx_zcfbbrjcc where '+sqlrq+' and '+ sqlzh+' order by jsrq desc '
+        cursorsj.execute(sql)
         sj = cursorsj.fetchall()
     elif blx[0][0] =='5': #收入分析
-        cursorsj.execute('select jsrq, zh, xm, zqnhg, qthbl, ldxxj, xyck, gz, qyz, kzz, llcp, qtgdl, gdlxj, gp, qtqyl, qylxj, hj from njfx_srfx order by jsrq desc ,zh,xm')
+        cursorsj.execute('select jsrq, zhmc, xm, zqnhg, qthbl, ldxxj, xyck, gz, qyz, kzz, llcp, qtgdl, gdlxj, gp, qtqyl, qylxj, hj from njfx_srfx order by jsrq desc ,zhmc,xm')
         sj = cursorsj.fetchall()
     elif blx[0][0] =='6': #投资分析
         cursorrq = connection.cursor()
@@ -423,7 +440,8 @@ def tghsj(request):
         if rq is None:
             rq = rqlist[0][0]
         cursorrq.close()
-        cursorsj.execute('select rq,zhmc, wtje, yhck, zqnhg, qthbjj, hblxj, hblzb, hblsr, hblsrzb, xdg, wcp, qyz, qtgdl, gdlxj, gdlzb, gdlsr, gdlsrzb, gp, gpjj, qylxj, qylzb, gpzb, qylsr, qylsrzb, stzcjz, srhj, sndljlr, bnlr, ljlr, sndwjz, sndtzhdwjz, sqdwjz, dwjz, bqjzzjbd, bnsyl, jz, ljpm, bnpm from njfx_tzqkfx t where t.rq= %s order by t.rq desc,t.id',[rq])
+        sql = 'select rq,zhmc, wtje, yhck, zqnhg, qthbjj, hblxj, hblzb, hblsr, hblsrzb, xdg, wcp, qyz, qtgdl, gdlxj, gdlzb, gdlsr, gdlsrzb, gp, gpjj, qylxj, qylzb, gpzb, qylsr, qylsrzb, stzcjz, srhj, sndljlr, bnlr, ljlr, sndwjz, sndtzhdwjz, sqdwjz, dwjz, bqjzzjbd, bnsyl, jz, ljpm, bnpm from njfx_tzqkfx t where '+sqlrq+' order by t.rq desc,t.id'
+        cursorsj.execute(sql)
         sj = cursorsj.fetchall()
     elif blx[0][0] =='7': #每日资产净值
         cursorzhlist=connection.cursor()
